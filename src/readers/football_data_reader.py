@@ -42,7 +42,7 @@ class FootballDataReader:
                     current_away_team = Team(row['AwayTeam'])
                     current_game = Game(current_home_team, current_away_team,
                                         int(row['FTHG']), int(row['FTAG']), row['Div'],
-                                        datetime.strptime(row['Date'], '%d/%m/%y'), season)
+                                        datetime.strptime(row['Date'], '%d/%m/%y'), season, league_name)
                     game_list.append_game(current_game)
 
             return game_list
