@@ -1,4 +1,4 @@
-from model.game_list import GameList
+from src.model.game_list import GameList
 
 
 def split_games_to_seasons(game_list):

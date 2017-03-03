@@ -1,9 +1,9 @@
 import unittest
-from helpers.game_list_helpers import split_games_to_seasons
-from helpers.game_list_helpers import all_team_names_from_list
-from model.game_list import GameList
-from model.game import Game
-from model.team import Team
+from src.helpers.game_list_helpers import split_games_to_seasons
+from src.helpers.game_list_helpers import all_team_names_from_list
+from src.model.game_list import GameList
+from src.model.game import Game
+from src.model.team import Team
 
 
 class TestGameListHelpers(unittest.TestCase):
