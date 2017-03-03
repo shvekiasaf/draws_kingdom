@@ -10,7 +10,7 @@ class TestGameListHelpers(unittest.TestCase):
     def setUp(self):
         pass
 
-    """split_games_to_seasons tests
+    """split_games_to_seasons helpers_tests
     =================================="""
     def test_split_games_to_seasons__none_games(self):
 
@@ -87,7 +87,7 @@ class TestGameListHelpers(unittest.TestCase):
         self.assertTrue(bool(all_games))
         self.assertEqual(len(all_games["L1S1D1"].games), 2)
 
-    """all_team_names_from_list tests
+    """all_team_names_from_list helpers_tests
         =========================="""
     def test_all_team_names_from_list__none_games(self):
 
