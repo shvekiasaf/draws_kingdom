@@ -1,7 +1,9 @@
 class Game:
     """Represents a game"""
 
-    def __init__(self, home_team, away_team, home_score, away_score, division, date, season, league_name):
+    def __init__(self, home_team="default_home_team", away_team="default_away_team",
+                 home_score=-1, away_score=-1, division="default_div", date=None,
+                 season="default_season", league_name="default_league_name"):
         self.home_team = home_team
         self.away_team = away_team
         self.home_score = home_score

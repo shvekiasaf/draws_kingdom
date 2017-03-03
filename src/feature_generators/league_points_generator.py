@@ -1,6 +1,7 @@
 from feature_generators.general_generator import GeneralGenerator
 from helpers.game_list_helpers import *
 
+
 class LeaguePointsGenerator(GeneralGenerator):
     """A generator that adds the current league points for every team in a game.
     Affected game attributes: home_team_league_points and away_team_league_points"""

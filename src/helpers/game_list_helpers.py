@@ -8,6 +8,9 @@ def split_games_to_seasons(game_list):
 
     games_dictionary = {}
 
+    if game_list is None or game_list.games is None:
+        return games_dictionary
+
     for current_game in game_list.games:
         if not current_game.seasonId in games_dictionary:
             games_dictionary[current_game.seasonId] = []
@@ -19,11 +22,17 @@ def split_games_to_seasons(game_list):
     return games_dictionary
 
 
-def all_teams_from_list(game_list):
+def all_team_names_from_list(game_list):
     """Returns a unique team names list out of game list"""
 
     unique = []
-    only_names = list(map((lambda x: x.home_team.name), game_list.games))
+
+    if game_list is None or game_list.games is None:
+        return unique
+
+    # home team
+    only_names = list(map((lambda x: x.home_team.name), game_list.games)) + \
+        list(map((lambda x: x.away_team.name), game_list.games))
     [unique.append(item) for item in only_names if item not in unique]
 
     return unique
