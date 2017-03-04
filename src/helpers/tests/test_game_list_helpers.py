@@ -10,6 +10,9 @@ class TestGameListHelpers(unittest.TestCase):
     def setUp(self):
         pass
 
+    def tearDown(self):
+        pass
+
     """split_games_to_seasons tests
     =================================="""
     def test_split_games_to_seasons__none_games(self):
@@ -169,6 +172,3 @@ class TestGameListHelpers(unittest.TestCase):
         self.assertTrue(bool(all_names))
         self.assertEqual(len(all_names), 2)
         self.assertEqual(sorted(all_names), sorted([team_1.name, team_2.name]))
-
-    def tearDown(self):
-        pass

@@ -12,7 +12,7 @@ class LeaguePointsGenerator(GeneralGenerator):
 
         for current_season in seasons_dict:
 
-            all_teams = all_teams_from_list(seasons_dict[current_season])
+            all_teams = all_team_names_from_list(seasons_dict[current_season])
             all_teams_points_dic = {x: 0 for x in all_teams}
 
             for current_game in seasons_dict[current_season].games:
@@ -33,3 +33,5 @@ class LeaguePointsGenerator(GeneralGenerator):
                 print(current_season + "\n")
                 print("{" + "\n".join("{}: {}".format(k, v) for k, v in all_teams_points_dic.items()) + "}")
                 print("\n")
+
+        return game_list

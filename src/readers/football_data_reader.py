@@ -7,8 +7,9 @@ import urllib.request
 import pickle
 import os
 
+
 class FootballDataReader:
-    """An object that reads csv data from Football-data.uk website, stores it in a cache
+    """An object that reads csv data from Football-Data.uk website, stores it in a cache
        file and returns a list of game list"""
 
     BASE_CACHE_URL = "readers/cache/"
