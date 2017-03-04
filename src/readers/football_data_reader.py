@@ -49,7 +49,7 @@ class FootballDataReader:
             with open(file_path, 'wb') as output:
                 pickle.dump(game_list, output, pickle.HIGHEST_PROTOCOL)
 
-        base_project_path = os.path.abspath("s").split("src")[0] + "src/"
+        base_project_path = os.path.abspath("s").split("draws_kingdom")[0] + "draws_kingdom/src/"
 
         # list name will be the division name extracted out of the file
         list_name = url.split('/')[-1].split('.')[0]

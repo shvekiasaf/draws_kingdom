@@ -2,18 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a6483e5b-2c54-4995-b6e3-5247e9a30071" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/helpers/base_test_case.py" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/helpers/game_list_helpers.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/helpers/tests/test_game_list_helpers.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/model/game.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/model/team.py" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/feature_generators/league_points_generator.py" afterPath="$PROJECT_DIR$/src/feature_generators/league_points_generator.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/feature_generators/tests/test_league_points_generator.py" afterPath="$PROJECT_DIR$/src/feature_generators/tests/test_league_points_generator.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/model/game_list.py" afterPath="$PROJECT_DIR$/src/model/game_list.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/helpers/base_test_case.py" afterPath="$PROJECT_DIR$/src/helpers/base_test_case.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/readers/football_data_reader.py" afterPath="$PROJECT_DIR$/src/readers/football_data_reader.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/readers/reader_manager.py" afterPath="$PROJECT_DIR$/src/readers/reader_manager.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/runner.py" afterPath="$PROJECT_DIR$/src/runner.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -28,7 +18,7 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="runner.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="runner.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/runner.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="150">
@@ -94,11 +84,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="base_test_case.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="base_test_case.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/helpers/base_test_case.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="255">
-              <caret line="17" column="0" lean-forward="false" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
+              <caret line="17" column="0" lean-forward="true" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
@@ -119,8 +109,8 @@
       <file leaf-file-name="football_data_reader.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/readers/football_data_reader.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="630">
-              <caret line="42" column="31" lean-forward="false" selection-start-line="42" selection-start-column="31" selection-end-line="42" selection-end-column="31" />
+            <state relative-caret-position="138">
+              <caret line="51" column="8" lean-forward="false" selection-start-line="51" selection-start-column="8" selection-end-line="51" selection-end-column="97" />
               <folding>
                 <element signature="e#0#36#0" expanded="true" />
               </folding>
@@ -181,11 +171,11 @@
         <option value="$PROJECT_DIR$/src/feature_generators/basic_features_generator.py" />
         <option value="$PROJECT_DIR$/src/model/game_list.py" />
         <option value="$PROJECT_DIR$/src/feature_generators/tests/test_league_points_generator.py" />
-        <option value="$PROJECT_DIR$/src/helpers/base_test_case.py" />
-        <option value="$PROJECT_DIR$/src/readers/football_data_reader.py" />
         <option value="$PROJECT_DIR$/src/readers/reader_manager.py" />
         <option value="$PROJECT_DIR$/src/feature_generators/league_points_generator.py" />
         <option value="$PROJECT_DIR$/src/runner.py" />
+        <option value="$PROJECT_DIR$/src/readers/football_data_reader.py" />
+        <option value="$PROJECT_DIR$/src/helpers/base_test_case.py" />
       </list>
     </option>
   </component>
@@ -376,7 +366,7 @@
       <recent name="$PROJECT_DIR$/src/helpers" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.runner">
+  <component name="RunManager" selected="Python tests.Unittests in test_league_points_generator">
     <configuration default="false" name="Unittests in TestGameListHelpers" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -696,9 +686,6 @@
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="Unittests_in_test_league_points_generator - 2017.03.04 at 23h 57m 05s.xml">
-      <configuration name="Unittests in test_league_points_generator" configurationId="tests" />
-    </history-entry>
     <history-entry file="Unittests_in_test_league_points_generator - 2017.03.04 at 23h 57m 58s.xml">
       <configuration name="Unittests in test_league_points_generator" configurationId="tests" />
     </history-entry>
@@ -724,6 +711,9 @@
       <configuration name="Unittests in test_league_points_generator" configurationId="tests" />
     </history-entry>
     <history-entry file="Unittests_in_test_league_points_generator - 2017.03.05 at 00h 06m 12s.xml">
+      <configuration name="Unittests in test_league_points_generator" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_in_test_league_points_generator - 2017.03.05 at 00h 16m 31s.xml">
       <configuration name="Unittests in test_league_points_generator" configurationId="tests" />
     </history-entry>
   </component>
@@ -970,6 +960,44 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/model/game_list.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="3" column="42" lean-forward="false" selection-start-line="3" selection-start-column="34" selection-end-line="3" selection-end-column="42" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/runner.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="10" column="0" lean-forward="true" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#48#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/readers/reader_manager.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="405">
+          <caret line="27" column="0" lean-forward="false" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#36#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/readers/football_data_reader.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="138">
+          <caret line="51" column="8" lean-forward="false" selection-start-line="51" selection-start-column="8" selection-end-line="51" selection-end-column="97" />
+          <folding>
+            <element signature="e#0#36#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/feature_generators/general_generator.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="150">
@@ -989,47 +1017,9 @@
     <entry file="file://$PROJECT_DIR$/src/helpers/base_test_case.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
-          <caret line="17" column="0" lean-forward="false" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
+          <caret line="17" column="0" lean-forward="true" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/model/game_list.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="3" column="42" lean-forward="false" selection-start-line="3" selection-start-column="34" selection-end-line="3" selection-end-column="42" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/readers/football_data_reader.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="630">
-          <caret line="42" column="31" lean-forward="false" selection-start-line="42" selection-start-column="31" selection-end-line="42" selection-end-column="31" />
-          <folding>
-            <element signature="e#0#36#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/readers/reader_manager.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="405">
-          <caret line="27" column="0" lean-forward="false" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#36#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/runner.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="10" column="0" lean-forward="true" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#48#0" expanded="true" />
           </folding>
         </state>
       </provider>

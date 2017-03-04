@@ -13,5 +13,5 @@ class BaseTestCase(unittest.TestCase):
     @staticmethod
     def base_url():
 
-        path = os.path.abspath("s").split("src")[0] + "src/readers/test_files/"
+        path = os.path.abspath("s").split("draws_kingdom")[0] + "draws_kingdom/src/readers/test_files/"
         return path
