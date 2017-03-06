@@ -1,5 +1,6 @@
 from helpers.file_helper import FileHelper
 from helpers.url_helper import URLHelper
+from predictors.predictor_manager import PredictorManager
 from readers.reader_manager import ReaderManager
 from feature_generators.league_points_generator import LeaguePointsGenerator
 
@@ -14,4 +15,6 @@ if not game_list:
 
     FileHelper.save_object_to_disk(game_list, file_path=URLHelper.cache_folder_path() + "final_games.dat")
 
-pass
+
+PredictorManager.run_prediction(game_list=game_list)
+

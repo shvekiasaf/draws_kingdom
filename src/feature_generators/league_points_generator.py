@@ -18,6 +18,7 @@ class LeaguePointsGenerator(GeneralGenerator):
 
         game_list.games_df["HomeTeamLeaguePoints"] = -1
         game_list.games_df["AwayTeamLeaguePoints"] = -1
+        game_list.games_df["LeaguePointsDiff"] = -1
 
         sorted_game_list_df = game_list.games_df.sort_values(by="Date")
 
@@ -34,6 +35,8 @@ class LeaguePointsGenerator(GeneralGenerator):
 
             game_list.games_df.loc[int(row.name), "HomeTeamLeaguePoints"] = season_id_team_points_dic[home_team_key]
             game_list.games_df.loc[int(row.name), "AwayTeamLeaguePoints"] = season_id_team_points_dic[away_team_key]
+            game_list.games_df.loc[int(row.name), "LeaguePointsDiff"] = abs(season_id_team_points_dic[away_team_key] -
+                                                                            season_id_team_points_dic[home_team_key])
 
             if row["FTHG"] > row["FTAG"]:
                 season_id_team_points_dic[home_team_key] += 3

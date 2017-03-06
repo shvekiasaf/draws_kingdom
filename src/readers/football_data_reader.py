@@ -22,6 +22,10 @@ class FootballDataReader:
                                      data_frame["Div"] + \
                                      data_frame["Season"]
 
+            # setting the draw field
+            data_frame.ix[data_frame.FTAG == data_frame.FTHG, "Draw"] = 1
+            data_frame.ix[data_frame.FTAG != data_frame.FTHG, "Draw"] = 0
+
             # Modeling
             data_frame["HomeTeam"] = data_frame["HomeTeam"].astype("category")
             data_frame["AwayTeam"] = data_frame["AwayTeam"].astype("category")
@@ -29,10 +33,6 @@ class FootballDataReader:
             data_frame["Season"] = data_frame["Season"].astype("category")
             data_frame["LeagueName"] = data_frame["LeagueName"].astype("category")
             data_frame["Date"] = pd.to_datetime(data_frame["Date"], format="%d/%m/%y")
-
-            # setting the draw field
-            data_frame.ix[data_frame.FTAG == data_frame.FTHG, "Draw"] = True
-            data_frame.ix[data_frame.FTAG != data_frame.FTHG, "Draw"] = False
 
             current_game_list = GameList(_division, data_frame)
 
