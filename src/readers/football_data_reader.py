@@ -30,6 +30,10 @@ class FootballDataReader:
             data_frame["LeagueName"] = data_frame["LeagueName"].astype("category")
             data_frame["Date"] = pd.to_datetime(data_frame["Date"], format="%d/%m/%y")
 
+            # setting the draw field
+            data_frame.ix[data_frame.FTAG == data_frame.FTHG, "Draw"] = True
+            data_frame.ix[data_frame.FTAG != data_frame.FTHG, "Draw"] = False
+
             current_game_list = GameList(_division, data_frame)
 
             return current_game_list
