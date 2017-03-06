@@ -4,17 +4,17 @@ import pandas as pd
 
 
 class ReaderManager:
-    """Reads all data from all CSV files and manage cache"""
+    """Reads all data from all CSV files"""
 
     @staticmethod
-    def all_game_lists(files, base_csvs_url):
+    def all_game_lists(csv_file_names, base_csv_folder_url):
 
         all_games = GameList("All Games", pd.DataFrame())
-        for current_league_name in files:
+        for current_league_name in csv_file_names:
 
             print("\n\nLoading CSVs for league: " + current_league_name)
 
-            f = open(base_csvs_url + current_league_name, 'r')
+            f = open(base_csv_folder_url + current_league_name, 'r')
 
             for line in f:
                 print(line, end='')

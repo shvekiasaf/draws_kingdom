@@ -1,10 +1,17 @@
+from helpers.file_helper import FileHelper
+from helpers.url_helper import URLHelper
 from readers.reader_manager import ReaderManager
 from feature_generators.league_points_generator import LeaguePointsGenerator
 
-lists = ReaderManager.all_game_lists(["english_urls", "belgium_urls"], "readers/urls/")
-# lists = ReaderManager.all_game_lists(["belgium_urls"], "readers/urls/")
+game_list = FileHelper.read_object_from_disk(file_path=URLHelper.cache_folder_path() + "final_games.dat")
 
-ttt = LeaguePointsGenerator()
-ttt.calculate_feature(lists)
+if not game_list:
+    game_list = ReaderManager.all_game_lists(csv_file_names=["english_urls", "belgium_urls"],
+                                             base_csv_folder_url=URLHelper.base_project_url() + "/readers/urls/")
+
+    ttt = LeaguePointsGenerator()
+    ttt.calculate_feature(game_list)
+
+    FileHelper.save_object_to_disk(game_list, file_path=URLHelper.cache_folder_path() + "final_games.dat")
 
 pass
