@@ -2,7 +2,7 @@ from feature_generators.general_generator import GeneralGenerator
 
 
 class LeaguePointsGenerator(GeneralGenerator):
-    """A generator that adds the current league points for every team in a game.
+    """The generator adds the current league points for every team in a game.
     New features: HomeTeamLeaguePoints and AwayTeamLeaguePoints"""
 
     def calculate_feature(self, game_list):

@@ -23,8 +23,8 @@ class FootballDataReader:
                                      data_frame["Season"]
 
             # setting the draw field
-            data_frame.ix[data_frame.FTAG == data_frame.FTHG, "Draw"] = 1
-            data_frame.ix[data_frame.FTAG != data_frame.FTHG, "Draw"] = 0
+            data_frame.ix[data_frame.FTAG == data_frame.FTHG, "Draw"] = True
+            data_frame.ix[data_frame.FTAG != data_frame.FTHG, "Draw"] = False
 
             # Modeling
             data_frame["HomeTeam"] = data_frame["HomeTeam"].astype("category")

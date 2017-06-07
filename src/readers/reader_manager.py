@@ -12,7 +12,7 @@ class ReaderManager:
         all_games = GameList("All Games", pd.DataFrame())
         for current_league_name in csv_file_names:
 
-            print("\n\nLoading CSVs for league: " + current_league_name)
+            print("- Loading CSVs for league: " + current_league_name)
 
             f = open(base_csv_folder_url + current_league_name, 'r')
 
@@ -25,5 +25,7 @@ class ReaderManager:
                     all_games.games_df = temp_game_list.games_df
                 else:
                     all_games.games_df = pd.concat([temp_game_list.games_df, all_games.games_df], ignore_index=True)
+
+            print("\n")
 
         return all_games
