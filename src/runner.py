@@ -1,6 +1,6 @@
 from helpers.file_helper import FileHelper
 from helpers.url_helper import URLHelper
-from predictors.predictor_manager import PredictorManager
+from predictors.prediction_manager import PredictionManager
 from readers.reader_manager import ReaderManager
 from feature_generators.league_points_generator import LeaguePointsGenerator
 
@@ -19,5 +19,5 @@ else:
     print("- Using Cache")
 
 print("- Running Predictions")
-PredictorManager.run_prediction(game_list=game_list)
+PredictionManager.run_prediction(game_list=game_list)
 
