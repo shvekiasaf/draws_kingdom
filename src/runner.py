@@ -3,6 +3,7 @@ from helpers.url_helper import URLHelper
 from predictors.predictor_manager import PredictorManager
 from readers.reader_manager import ReaderManager
 from feature_generators.league_points_generator import LeaguePointsGenerator
+from feature_generators.draws_percentage_generator import DrawsPercentageGenerator
 
 game_list = FileHelper.read_object_from_disk(file_path=URLHelper.cache_folder_path() + "final_games.dat")
 
@@ -13,7 +14,8 @@ if not game_list:
     print("- Feature Engineering")
     ttt = LeaguePointsGenerator()
     ttt.calculate_feature(game_list)
-
+    ddd = DrawsPercentageGenerator()
+    ddd.calculate_feature(game_list)
     FileHelper.save_object_to_disk(game_list, file_path=URLHelper.cache_folder_path() + "final_games.dat")
 else:
     print("- Using Cache")
