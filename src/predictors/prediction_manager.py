@@ -14,9 +14,10 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import cross_val_score
 from sklearn import tree
 from sklearn.metrics import confusion_matrix
+from colorama import Fore, Back, Style
 
-class PredictorManager:
-    """Manage the prediction workflow"""
+class PredictionManager:
+    """Manages the prediction workflow"""
 
     @staticmethod
     def run_prediction(game_list: GameList):
@@ -45,6 +46,16 @@ class PredictorManager:
         print("Draw: %i (%.1f percent), None Draw: %i (%.1f percent), Total: %i" \
               % (len(draw), 1. * len(draw) / len(train) * 100.0, \
                  len(non_draw), 1. * len(non_draw) / len(train) * 100.0, len(train)))
+
+
+        draw_test = test[test['Draw'] == 1]
+        non_draw_test = test[test['Draw'] == 0]
+
+        print('\nTest Data Summary:')
+        print("Draw: %i (%.1f percent), None Draw: %i (%.1f percent), Total: %i" \
+              % (len(draw_test), 1. * len(draw_test) / len(test) * 100.0, \
+                 len(non_draw_test), 1. * len(non_draw_test) / len(test) * 100.0, len(test)))
+        baseline = 1. * len(draw_test) / len(test) * 100.0
 
         print("\nLeaguePointsDiff engineering")
         # warnings.filterwarnings(action="ignore")
@@ -76,11 +87,7 @@ class PredictorManager:
 
         # Logistic Regression:
         clf_log = LogisticRegression()
-        clf_log = clf_log.fit(X, y)
-        score_log = clf_log.score(X, y)
-        print("Logistic Regression Score: ", score_log)
-        print(confusion_matrix(clf_log.predict(X_test), y_test, labels=[0, 1]))
-        print("\n")
+        PredictionManager.run_model(clf_log, "Logistic Regression", X, y, X_test, y_test, baseline)
 
         #Decision Tree:
         clf_tree = tree.DecisionTreeClassifier(
@@ -89,10 +96,7 @@ class PredictorManager:
             min_weight_fraction_leaf=0.01 \
             )
         clf_tree = clf_tree.fit(X, y)
-        score_tree = cross_val_score(clf_tree, X, y, cv=5).mean()
-        print("Decision Tree Score: ", score_tree)
-        print(confusion_matrix(clf_tree.predict(X_test), y_test, labels=[0,1]))
-        print("\n")
+        PredictionManager.run_model(clf_tree, "Decision Tree", X, y, X_test, y_test, baseline)
 
         clf_ext = ExtraTreesClassifier(
             max_features='auto',
@@ -105,10 +109,7 @@ class PredictorManager:
             # min_weight_fraction_leaf=0.02
         )
         clf_ext = clf_ext.fit(X, y)
-        score_ext = cross_val_score(clf_ext, X, y, cv=5).mean()
-        print("Extra Trees Score: ", score_ext)
-        print(confusion_matrix(clf_ext.predict(X_test), y_test, labels=[0, 1]))
-        print("\n")
+        PredictionManager.run_model(clf_ext, "Extra Tree Score", X, y, X_test, y_test, baseline)
 
         # # Random Forest:
         # clf_rf = RandomForestClassifier(
@@ -131,3 +132,26 @@ class PredictorManager:
         print("Mean score = %.3f, Std deviation = %.3f" % (np.mean(scores), np.std(scores)))
 
         pass
+
+    @staticmethod
+    def run_model(model: object, modeltitle, X, y, X_test, y_test, baseline):
+        clf = model.fit(X, y)
+
+        model_score = cross_val_score(clf, X, y, cv=5).mean()
+        print(modeltitle, " Score: ", model_score)
+
+        conf_mat_ext = confusion_matrix(clf.predict(X_test), y_test, labels=[0, 1])
+
+        draw_score = 100 * conf_mat_ext[1, 1] / (conf_mat_ext[1, 0] + conf_mat_ext[1, 1])
+
+        print(conf_mat_ext)
+
+        print(Fore.RED)
+        if draw_score > baseline:
+            print(Fore.GREEN)
+
+        print("Draw score: %.5f (Baseline: %.5f)" % (draw_score, baseline))
+
+        print(Style.RESET_ALL)
+        print("\n")
+
