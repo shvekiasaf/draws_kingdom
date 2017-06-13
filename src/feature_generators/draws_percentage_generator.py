@@ -4,14 +4,7 @@ from feature_generators.general_generator import GeneralGenerator
 class DrawsPercentageGenerator(GeneralGenerator):
     """The generator calculates the draw ratio for each team, and grades each game by the average of both team ratios.
     Note: needs to run after @league_points_generator"""
-    def calculate_feature(self, game_list):
-
-        if game_list is None:
-            return game_list
-        elif game_list.games_df is None:
-            return game_list
-        elif game_list.games_df.empty:
-            return game_list
+    def inner_calculate_feature(self, game_list):
 
         teams_draw_percentage_dict = {}
 
