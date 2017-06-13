@@ -9,7 +9,7 @@ class DistanceFromTopPopulator(BaseMetricPopulator):
         home_team_key = get_team_key(row, "HomeTeam")
         away_team_key = get_team_key(row, "AwayTeam")
 
-        if number_of_games_played[home_team_key] == 0 or number_of_games_played[away_team_key] == 0:
+        if number_of_games_played[home_team_key] == 0 and number_of_games_played[away_team_key] == 0:
             game_list.games_df.loc[int(row.name), "DistanceFromLeader"] = -1
             return
 
@@ -19,5 +19,6 @@ class DistanceFromTopPopulator(BaseMetricPopulator):
 
         distance_from_top = ((2 * max_points[row["SeasonId"]]) - season_id_team_points_dic[home_team_key] -
                              season_id_team_points_dic[away_team_key]) / 2
-        normalized_distance_from_top = distance_from_top / number_of_games_played[home_team_key]
+        games_played = (number_of_games_played[home_team_key] + number_of_games_played[away_team_key]) / 2
+        normalized_distance_from_top = distance_from_top / games_played
         game_list.games_df.loc[int(row.name), "DistanceFromLeader"] = normalized_distance_from_top

@@ -3,6 +3,7 @@ import pandas as pd
 from helpers.base_test_case import BaseTestCase
 from readers.football_data_reader import FootballDataReader
 from src.feature_generators.league_points_generator import LeaguePointsGenerator
+from src.feature_generators.draws_percentage_generator import DrawsPercentageGenerator
 from src.model.game_list import GameList
 
 
@@ -93,6 +94,10 @@ class TestLeaguePointsGenerator(BaseTestCase):
         for index in range(len(draws)):
             self.assertEqual(draws[index], game_list_with_points.games_df["Draw"][index])
         self.assertEqual(game_list_with_points.games_df.loc[3, "LeaguePointsDiff"], 5)
+        self.assertEqual(game_list_with_points.games_df.loc[3, "DistanceFromLeader"], 1.25)
+
+        draw_percentage = DrawsPercentageGenerator().calculate_feature(game_list)
+        self.assertEqual(draw_percentage.games_df.loc[3, "DrawPercentage"], 0.5)
 
     def test_calculate_feature__many_unsorted_games(self):
         # Arrange
