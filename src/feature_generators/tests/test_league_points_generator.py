@@ -61,6 +61,7 @@ class TestLeaguePointsGenerator(BaseTestCase):
         self.assertEqual(len(game_list_with_points.games_df.index), 1)
 
     def test_calculate_feature__many_games(self):
+        self.clean_cache_files()
 
         # Arrange
         game_list = FootballDataReader.game_list_by_url(url=BaseTestCase.base_url() + "/many_games.csv",
@@ -80,6 +81,17 @@ class TestLeaguePointsGenerator(BaseTestCase):
         self.assertEqual(game_list_with_points.games_df.loc[3, "AwayTeamLeaguePoints"], 6)
         self.assertEqual(game_list_with_points.games_df.loc[3, "HomeTeamLeaguePoints"], 1)
         self.assertEqual(len(game_list_with_points.games_df.index), 4)
+        draws = [False, False, True, True]
+        for index in range(len(draws)):
+            self.assertEqual(draws[index], game_list_with_points.games_df["Draw"][index])
+        self.assertEqual(game_list_with_points.games_df.loc[3, "LeaguePointsDiff"], 5)
+
+    def clean_cache_files(self):
+        import os, re, os.path
+        pattern = ".*many_games.*dat"
+        for root, dirs, files in os.walk(BaseTestCase.cache_url()):
+            for file in filter(lambda x: re.match(pattern, x), files):
+                os.remove(os.path.join(root, file))
 
     def test_calculate_feature__many_unsorted_games(self):
         # Arrange

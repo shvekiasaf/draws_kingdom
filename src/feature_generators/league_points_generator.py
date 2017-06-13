@@ -53,20 +53,19 @@ class LeaguePointsGenerator(GeneralGenerator):
                 season_id_team_points_dic[away_team_key] = 0
 
             if home_team_key not in number_of_games_played:
-                number_of_games_played[home_team_key] = 1
-            else:
-                number_of_games_played[home_team_key] += 1
+                number_of_games_played[home_team_key] = 0
 
             if away_team_key not in number_of_games_played:
-                number_of_games_played[away_team_key] = 1
-            else:
-                number_of_games_played[away_team_key] += 1
+                number_of_games_played[away_team_key] = 0
 
             game_list.games_df.loc[int(row.name), "HomeTeamLeaguePoints"] = season_id_team_points_dic[home_team_key]
             game_list.games_df.loc[int(row.name), "AwayTeamLeaguePoints"] = season_id_team_points_dic[away_team_key]
 
             for populator in metric_populators:
                 populator.update_metric(game_list, max_points, number_of_games_played, row, season_id_team_points_dic)
+
+            number_of_games_played[home_team_key] += 1
+            number_of_games_played[away_team_key] += 1
 
             if row["FTHG"] > row["FTAG"]:
                 season_id_team_points_dic[home_team_key] += 3

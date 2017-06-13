@@ -16,3 +16,7 @@ class BaseTestCase(unittest.TestCase):
 
         path = URLHelper.base_project_url() + "/readers/test_files/"
         return path
+
+    @staticmethod
+    def cache_url():
+        return URLHelper.base_project_url() + "/readers/cache/tests"
