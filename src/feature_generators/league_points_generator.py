@@ -37,9 +37,6 @@ class LeaguePointsGenerator(GeneralGenerator):
 
         for index, row in sorted_game_list_df.iterrows():
 
-            if is_nan(row["HomeTeam"]) or is_nan(row["AwayTeam"]):
-                continue
-
             home_team_key = row["HomeTeam"] + row["SeasonId"]
             away_team_key = row["AwayTeam"] + row["SeasonId"]
 

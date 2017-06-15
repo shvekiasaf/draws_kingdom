@@ -15,7 +15,7 @@ class FootballDataReader:
 
         def read_game_list_from_csv(_url, _division, _season, _league_name):
 
-            data_frame = pd.read_csv(_url, usecols=["HomeTeam", "AwayTeam", "Div", "Date", "FTAG", "FTHG"])
+            data_frame = pd.read_csv(_url, usecols=["HomeTeam", "AwayTeam", "Div", "Date", "FTAG", "FTHG"]).dropna(how='all')
             data_frame["LeagueName"] = _league_name  # new feature
             data_frame["Season"] = _season  # new feature
             data_frame["SeasonId"] = data_frame["LeagueName"] + \
