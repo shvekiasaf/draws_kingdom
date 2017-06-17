@@ -24,17 +24,13 @@ class PredictionManager:
         data_frame = game_list.games_df
 
         # Feature selection
-        data_frame = data_frame[['LeaguePointsDiff', 'Draw']]
+        features = ['LeaguePointsDiff', 'DrawPercentage']
+        data_frame = data_frame[features + ['Draw']]
 
-        data_frame["Draw"] = data_frame["Draw"].astype("category")
-        data_frame["Draw"].cat.categories = [0, 1]
         data_frame["Draw"] = data_frame["Draw"].astype("int")
 
+        print("\nSplitting test=20% train=80%")
         train, test = train_test_split(data_frame, test_size=0.2, random_state=0)
-
-        train.head(8)
-
-        train.describe()
 
         print('\nMissing Data Summary:')
         print(train.isnull().sum())
@@ -52,44 +48,27 @@ class PredictionManager:
         non_draw_test = test[test['Draw'] == 0]
 
         print('\nTest Data Summary:')
-        print("Draw: %i (%.1f percent), None Draw: %i (%.1f percent), Total: %i" \
+        print("Draw: %i (%.1f percent), None Draw: %i (%.1f percent), Total: %i\n" \
               % (len(draw_test), 1. * len(draw_test) / len(test) * 100.0, \
                  len(non_draw_test), 1. * len(non_draw_test) / len(test) * 100.0, len(test)))
         baseline = 1. * len(draw_test) / len(test) * 100.0
 
-        print("\nLeaguePointsDiff engineering")
-        # warnings.filterwarnings(action="ignore")
-        # plt.figure(figsize=[12, 10])
-        # plt.subplot(331)
-        # sns.distplot(draw['LeaguePointsDiff'].dropna().values, bins=range(0, 81, 1), kde=False, color="blue")
-        # sns.distplot(non_draw['LeaguePointsDiff'].dropna().values, bins=range(0, 81, 1), kde=False, color="red",
-        #              axlabel='LeaguePointsDiff')
-        # plt.subplot(332)
-
-        print("Median league points draw: %.1f, Median league points none-draw: %.1f" \
-              % (np.median(draw['LeaguePointsDiff'].dropna()), np.median(non_draw['LeaguePointsDiff'].dropna())))
-
-        training, testing = train_test_split(train, test_size=0.2, random_state=0)
-        print("\nTotal sample size = %i; training sample size = %i, testing sample size = %i" \
-              % (train.shape[0], training.shape[0], testing.shape[0]))
-
         # Modelling
-        cols = ['LeaguePointsDiff']
-        tcols = np.append(['Draw'], cols)
+        tcols = np.append(['Draw'], features)
 
-        df = training.loc[:, tcols].dropna()
-        X = df.loc[:, cols]
+        df = train.loc[:, tcols].dropna()
+        X = df.loc[:, features]
         y = np.ravel(df.loc[:, ['Draw']])
 
-        df_test = testing.loc[:, tcols].dropna()
-        X_test = df_test.loc[:, cols]
+        df_test = test.loc[:, tcols].dropna()
+        X_test = df_test.loc[:, features]
         y_test = np.ravel(df_test.loc[:, ['Draw']])
 
         # Logistic Regression:
         clf_log = LogisticRegression()
         PredictionManager.run_model(clf_log, "Logistic Regression", X, y, X_test, y_test, baseline)
 
-        #Decision Tree:
+        # Decision Tree:
         clf_tree = tree.DecisionTreeClassifier(
             # max_depth=3,\
             class_weight="balanced", \
@@ -98,6 +77,7 @@ class PredictionManager:
         clf_tree = clf_tree.fit(X, y)
         PredictionManager.run_model(clf_tree, "Decision Tree", X, y, X_test, y_test, baseline)
 
+        # Extra Trees
         clf_ext = ExtraTreesClassifier(
             max_features='auto',
             bootstrap=True,
@@ -109,27 +89,23 @@ class PredictionManager:
             # min_weight_fraction_leaf=0.02
         )
         clf_ext = clf_ext.fit(X, y)
-        PredictionManager.run_model(clf_ext, "Extra Tree Score", X, y, X_test, y_test, baseline)
+        PredictionManager.run_model(clf_ext, "Extra Tree", X, y, X_test, y_test, baseline)
 
-        # # Random Forest:
-        # clf_rf = RandomForestClassifier(
-        #     n_estimators=1000, \
-        #     max_depth=None, \
-        #     min_samples_split=10 \
-        #     # class_weight="balanced", \
-        #     # min_weight_fraction_leaf=0.02 \
-        # )
-        # clf_rf = clf_rf.fit(X, y)
-        # score_rf = cross_val_score(clf_rf, X, y, cv=5).mean()
-        # print("Random Forest Score: ", score_rf)
-        # pd.DataFrame(list(zip(X.columns, np.transpose(clf_log.coef_))))
-        # print(confusion_matrix(clf_rf.predict(X_test), y_test, labels=[0,1]))
+        # Random Forest:
+        clf_rf = RandomForestClassifier(
+            n_estimators=1000, \
+            max_depth=None, \
+            min_samples_split=10 \
+            # class_weight="balanced", \
+            # min_weight_fraction_leaf=0.02 \
+        )
+        clf_rf = clf_rf.fit(X, y)
+        PredictionManager.run_model(clf_rf, "Random Forest", X, y, X_test, y_test, baseline)
 
-
-        clf = clf_ext
-        scores = cross_val_score(clf, X, y, cv=5)
-        print(scores)
-        print("Mean score = %.3f, Std deviation = %.3f" % (np.mean(scores), np.std(scores)))
+        # clf = clf_ext
+        # scores = cross_val_score(clf, X, y, cv=5)
+        # print(scores)
+        # print("Mean score = %.3f, Std deviation = %.3f" % (np.mean(scores), np.std(scores)))
 
         pass
 
@@ -138,7 +114,10 @@ class PredictionManager:
         clf = model.fit(X, y)
 
         model_score = cross_val_score(clf, X, y, cv=5).mean()
-        print(modeltitle, " Score: ", model_score)
+        print(Fore.BLUE)
+        print(modeltitle)
+        print(Style.RESET_ALL)
+        print(" Score: ", model_score)
 
         conf_mat_ext = confusion_matrix(clf.predict(X_test), y_test, labels=[0, 1])
 
@@ -155,3 +134,16 @@ class PredictionManager:
         print(Style.RESET_ALL)
         print("\n")
 
+
+# Code example how to engineer a feature:
+# =======================================
+# print("\nLeaguePointsDiff engineering")
+# warnings.filterwarnings(action="ignore")
+# plt.figure(figsize=[12, 10])
+# plt.subplot(331)
+# sns.distplot(draw['LeaguePointsDiff'].dropna().values, bins=range(0, 81, 1), kde=False, color="blue")
+# sns.distplot(non_draw['LeaguePointsDiff'].dropna().values, bins=range(0, 81, 1), kde=False, color="red",
+#              axlabel='LeaguePointsDiff')
+# plt.subplot(332)
+# print("Median league points draw: %.1f, Median league points none-draw: %.1f" \
+#      % (np.median(draw['LeaguePointsDiff'].dropna()), np.median(non_draw['LeaguePointsDiff'].dropna())))
