@@ -105,6 +105,8 @@ class TestLeaguePointsGenerator(BaseTestCase):
         self.assertEqual(len(game_list_with_points.games_df.index), 4)
 
     def test_calculate_feature__many_games_different_seasons(self):
+        BaseTestCase.clean_cache_files(self, ".*many_games.*dat")
+
         game_list = FootballDataReader.game_list_by_url(url=BaseTestCase.base_url() + "/many_games.csv",
                                                         league_name="tests", season="0910")
         game_list1 = FootballDataReader.game_list_by_url(url=BaseTestCase.base_url() + "/many_games.csv",

@@ -15,12 +15,12 @@ class TestGoalsDifferenceGenerator(BaseTestCase):
         pass
 
     def test_calculate_game_mamy_games(self):
-        BaseTestCase.clean_cache_files(self, ".*many_games.*dat")
+        BaseTestCase.clean_cache_files(self, ".*.*dat")
 
         # Arrange
-        game_list = FootballDataReader.game_list_by_url(url=BaseTestCase.base_url() + "/many_games.csv",
+        game_list = FootballDataReader.game_list_by_url(url=BaseTestCase.base_url() + "/goals_difference.csv",
                                                         league_name="tests")
         goals_difference = GoalsDifferenceGenerator().calculate_feature(game_list)
-        self.assertEqual(goals_difference.games_df.loc[3, "ScoringDistance"], 0)
-        self.assertEqual(goals_difference.games_df.loc[2, "ScoringDistance"], 2)
+        self.assertEqual(goals_difference.games_df.loc[3, "ScoringDistance"], -1)
+        self.assertEqual(goals_difference.games_df.loc[4, "ScoringDistance"], 2)
 

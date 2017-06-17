@@ -6,6 +6,7 @@ class DrawsPercentageGenerator(GeneralGenerator):
     Note: needs to run after @league_points_generator"""
     def inner_calculate_feature(self, game_list):
 
+        # TODO add a similiar feature with weights
         teams_draw_percentage_dict = {}
 
         for index, game in game_list.games_df.iterrows():

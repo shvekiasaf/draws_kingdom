@@ -18,3 +18,6 @@ class GeneralGenerator(ABC):
         elif game_list.games_df.empty:
             return game_list
         return self.inner_calculate_feature(game_list)
+
+    def filter_games_before_date(self, game_list, date):
+        return game_list.games_df.loc[game_list.games_df['Date'] < date]
