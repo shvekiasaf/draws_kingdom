@@ -11,10 +11,3 @@ class GoalsDifferenceGenerator(GeneralGenerator):
             game_list.games_df.loc[int(game.name), 'ScoringDistance'] = abs(home_team__mean['FTHG'][game['HomeTeam']] -
                                                                             away_team__mean['FTAG'][game['AwayTeam']])
         return game_list
-
-    @staticmethod
-    def get_scoring_avg(game, team_game_count, team_sum, team, scoring_column):
-        team_goal_count = team_sum.loc[game[team]].loc[scoring_column]
-        num_of_games = team_game_count['Div'].loc[game[team]]
-        home_team_scoring_avg = team_goal_count / num_of_games
-        return home_team_scoring_avg
