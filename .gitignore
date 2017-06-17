@@ -1,3 +1,4 @@
 *.pyc
 src/readers/cache
 srcreaders/cache
+workspace.xml
