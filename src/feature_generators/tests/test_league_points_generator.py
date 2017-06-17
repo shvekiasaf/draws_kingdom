@@ -3,19 +3,10 @@ import pandas as pd
 from helpers.base_test_case import BaseTestCase
 from readers.football_data_reader import FootballDataReader
 from src.feature_generators.league_points_generator import LeaguePointsGenerator
-from src.feature_generators.draws_percentage_generator import DrawsPercentageGenerator
 from src.model.game_list import GameList
 
 
-def clean_cache_files(pattern):
-    import re, os.path
-    for root, dirs, files in os.walk(BaseTestCase.cache_url()):
-        for file in filter(lambda x: re.match(pattern, x), files):
-            os.remove(os.path.join(root, file))
-
-
 class TestLeaguePointsGenerator(BaseTestCase):
-
     def setUp(self):
         pass
 
@@ -23,7 +14,6 @@ class TestLeaguePointsGenerator(BaseTestCase):
         pass
 
     def test_calculate_feature__no_data_frame(self):
-
         # Arrange
         game_list = GameList(list_name="", games_df=None)
 
@@ -34,7 +24,6 @@ class TestLeaguePointsGenerator(BaseTestCase):
         self.assertFalse(bool(game_list_with_points.games_df))
 
     def test_calculate_feature__none_game_list(self):
-
         # Arrange
         game_list = None
 
@@ -45,7 +34,6 @@ class TestLeaguePointsGenerator(BaseTestCase):
         self.assertFalse(bool(game_list_with_points))
 
     def test_calculate_feature__empty_data_frame(self):
-
         # Arrange
         game_list = GameList(list_name="", games_df=pd.DataFrame())
 
@@ -56,9 +44,9 @@ class TestLeaguePointsGenerator(BaseTestCase):
         self.assertTrue(game_list_with_points.games_df.empty)
 
     def test_calculate_feature__single_game(self):
-
         # Arrange
-        game_list = FootballDataReader.game_list_by_url(url=BaseTestCase.base_url() + "/single_game.csv", league_name="tests")
+        game_list = FootballDataReader.game_list_by_url(url=BaseTestCase.base_url() + "/single_game.csv",
+                                                        league_name="tests")
 
         # Act
         game_list_with_points = LeaguePointsGenerator().calculate_feature(game_list=game_list)
@@ -70,7 +58,7 @@ class TestLeaguePointsGenerator(BaseTestCase):
         self.assertEqual(len(game_list_with_points.games_df.index), 1)
 
     def test_calculate_feature__many_games(self):
-        clean_cache_files(".*many_games.*dat")
+        BaseTestCase.clean_cache_files(self, ".*many_games.*dat")
 
         # Arrange
         game_list = FootballDataReader.game_list_by_url(url=BaseTestCase.base_url() + "/many_games.csv",
@@ -96,9 +84,6 @@ class TestLeaguePointsGenerator(BaseTestCase):
         self.assertEqual(game_list_with_points.games_df.loc[3, "LeaguePointsDiff"], 5)
         self.assertEqual(game_list_with_points.games_df.loc[3, "DistanceFromLeader"], 1.25)
 
-        draw_percentage = DrawsPercentageGenerator().calculate_feature(game_list)
-        self.assertEqual(draw_percentage.games_df.loc[3, "DrawPercentage"], 0.5)
-
     def test_calculate_feature__many_unsorted_games(self):
         # Arrange
         game_list = FootballDataReader.game_list_by_url(url=BaseTestCase.base_url() + "/many_unsorted_games.csv",
@@ -120,7 +105,6 @@ class TestLeaguePointsGenerator(BaseTestCase):
         self.assertEqual(len(game_list_with_points.games_df.index), 4)
 
     def test_calculate_feature__many_games_different_seasons(self):
-
         game_list = FootballDataReader.game_list_by_url(url=BaseTestCase.base_url() + "/many_games.csv",
                                                         league_name="tests", season="0910")
         game_list1 = FootballDataReader.game_list_by_url(url=BaseTestCase.base_url() + "/many_games.csv",
