@@ -5,16 +5,12 @@ from feature_generators.general_generator import GeneralGenerator
 # and away scoring. Read with caution, uses the power of the data frame groupby, sum and count functions
 class GoalsDifferenceGenerator(GeneralGenerator):
     def inner_calculate_feature(self, game_list):
-        home_team_sum = game_list.games_df.groupby('HomeTeam').sum()
-        away_team_sum = game_list.games_df.groupby('AwayTeam').sum()
-        home_team_game_count = game_list.games_df.groupby('HomeTeam').count()
-        away_team_game_count = game_list.games_df.groupby('AwayTeam').count()
-
+        home_team__mean = game_list.games_df.groupby('HomeTeam').mean()
+        away_team__mean = game_list.games_df.groupby('AwayTeam').mean()
         for index, game in game_list.games_df.iterrows():
-            home_team_scoring_avg = self.get_scoring_avg(game, home_team_game_count, home_team_sum, 'HomeTeam', 'FTHG')
-            away_team_scoring_avg = self.get_scoring_avg(game, away_team_game_count, away_team_sum, 'AwayTeam', 'FTAG')
-            game_list.games_df.loc[int(game.name), 'ScoringDistance'] = abs(home_team_scoring_avg -
-                                                                            away_team_scoring_avg)
+            game_list.games_df.loc[int(game.name), 'ScoringDistance'] = abs(home_team__mean['FTHG'][game['HomeTeam']] -
+                                                                            away_team__mean['FTAG'][game['AwayTeam']])
+        return game_list
 
     @staticmethod
     def get_scoring_avg(game, team_game_count, team_sum, team, scoring_column):
