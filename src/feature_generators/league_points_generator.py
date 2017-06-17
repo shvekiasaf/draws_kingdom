@@ -15,13 +15,6 @@ class LeaguePointsGenerator(GeneralGenerator):
 
     def inner_calculate_feature(self, game_list):
 
-        if game_list is None:
-            return game_list
-        elif game_list.games_df is None:
-            return game_list
-        elif game_list.games_df.empty:
-            return game_list
-
         metric_populators = [PointsDifferencePopulator(), DistanceFromTopPopulator()]
 
         season_id_team_points_dic = {}
