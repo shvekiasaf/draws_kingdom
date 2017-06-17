@@ -4,6 +4,7 @@ from predictors.prediction_manager import PredictionManager
 from readers.reader_manager import ReaderManager
 from feature_generators.draws_percentage_generator import DrawsPercentageGenerator
 from feature_generators.league_points_generator import LeaguePointsGenerator
+from feature_generators.goals_difference_generator import GoalsDifferenceGenerator
 game_list = FileHelper.read_object_from_disk(file_path=URLHelper.cache_folder_path() + "final_games.dat")
 
 if not game_list:
@@ -11,6 +12,7 @@ if not game_list:
                                              base_csv_folder_url=URLHelper.base_project_url() + "/readers/urls/")
 
     print("- Feature Engineering")
+    GoalsDifferenceGenerator().calculate_feature(game_list)
     league_points_generator = LeaguePointsGenerator()
     league_points_generator.calculate_feature(game_list)
     draw_percentage_generator = DrawsPercentageGenerator()

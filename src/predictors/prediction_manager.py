@@ -24,7 +24,7 @@ class PredictionManager:
         data_frame = game_list.games_df
 
         # Feature selection
-        features = ['LeaguePointsDiff', 'DrawPercentage']
+        features = ['LeaguePointsDiff', 'ScoringDistance', 'DrawPercentage', 'DistanceFromLeader']
         data_frame = data_frame[features + ['Draw']]
 
         data_frame["Draw"] = data_frame["Draw"].astype("int")
