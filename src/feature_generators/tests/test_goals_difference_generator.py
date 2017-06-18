@@ -21,6 +21,7 @@ class TestGoalsDifferenceGenerator(BaseTestCase):
         game_list = FootballDataReader.game_list_by_url(url=BaseTestCase.base_url() + "/goals_difference.csv",
                                                         league_name="tests")
         goals_difference = GoalsDifferenceGenerator().calculate_feature(game_list)
-        self.assertEqual(goals_difference.games_df.loc[3, "ScoringDistance"], -1)
+        self.assertEqual(goals_difference.games_df.loc[2, "ScoringDistance"], 1)
+        self.assertEqual(goals_difference.games_df.loc[3, "ScoringDistance"], 0)
         self.assertEqual(goals_difference.games_df.loc[4, "ScoringDistance"], 2)
 
