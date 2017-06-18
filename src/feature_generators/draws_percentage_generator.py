@@ -4,28 +4,28 @@ from feature_generators.general_generator import GeneralGenerator
 class DrawsPercentageGenerator(GeneralGenerator):
     """The generator calculates the draw ratio for each team, and grades each game by the average of both team ratios.
     Note: needs to run after @league_points_generator"""
+
     def inner_calculate_feature(self, game_list):
 
-        # TODO add a similiar feature with weights
-        teams_draw_percentage_dict = {}
-
         for index, game in game_list.games_df.iterrows():
-            if game["HomeTeam"] not in teams_draw_percentage_dict:
-                teams_draw_percentage_dict[game["HomeTeam"]] = {'draws': 0, 'total_games': 0}
+            previous_games = GeneralGenerator.filter_games_before_date(self, game_list, game.Date)
 
-            if game["AwayTeam"] not in teams_draw_percentage_dict:
-                teams_draw_percentage_dict[game["AwayTeam"]] = {'draws': 0, 'total_games': 0}
+            games_with_either_team = previous_games[
+                (previous_games.HomeTeam == game.HomeTeam) |
+                (previous_games.HomeTeam == game.AwayTeam) |
+                (previous_games.AwayTeam == game.HomeTeam) |
+                (previous_games.AwayTeam == game.AwayTeam)]
 
-            if game["Draw"]:
-                teams_draw_percentage_dict[game["HomeTeam"]]['draws'] += 1
-                teams_draw_percentage_dict[game["AwayTeam"]]['draws'] += 1
+            if games_with_either_team.empty:
+                game_list.games_df.loc[
+                    int(game.name), "DrawPercentage"] = -1
+                continue
 
-            teams_draw_percentage_dict[game["HomeTeam"]]['total_games'] += 1
-            teams_draw_percentage_dict[game["AwayTeam"]]['total_games'] += 1
+            # we simply use Div to get the count. All other columns would also work
+            total_games_with_teams = games_with_either_team.count()['Div']
+            number_of_draws_for_teams = games_with_either_team[games_with_either_team.Draw].count()['Div']
 
-        for index, game in game_list.games_df.iterrows():
-            home_team_data = teams_draw_percentage_dict[game["HomeTeam"]]
-            away_team_data = teams_draw_percentage_dict[game["AwayTeam"]]
-            game_list.games_df.loc[int(game.name), "DrawPercentage"] = ((away_team_data['draws'] / away_team_data['total_games']) + (home_team_data['draws'] / home_team_data['total_games'])) / 2
+            game_list.games_df.loc[
+                int(game.name), "DrawPercentage"] = number_of_draws_for_teams / total_games_with_teams
 
         return game_list
