@@ -5,6 +5,7 @@ from readers.reader_manager import ReaderManager
 from feature_generators.draws_percentage_generator import DrawsPercentageGenerator
 from feature_generators.league_points_generator import LeaguePointsGenerator
 from feature_generators.goals_difference_generator import GoalsDifferenceGenerator
+import datetime
 game_list = FileHelper.read_object_from_disk(file_path=URLHelper.cache_folder_path() + "final_games.dat")
 
 if not game_list:
@@ -12,11 +13,12 @@ if not game_list:
                                              base_csv_folder_url=URLHelper.base_project_url() + "/readers/urls/")
 
     print("- Feature Engineering")
+    GoalsDifferenceGenerator(365).calculate_feature(game_list)
     GoalsDifferenceGenerator().calculate_feature(game_list)
     league_points_generator = LeaguePointsGenerator()
     league_points_generator.calculate_feature(game_list)
-    draw_percentage_generator = DrawsPercentageGenerator()
-    draw_percentage_generator.calculate_feature(game_list)
+    DrawsPercentageGenerator(365).calculate_feature(game_list)
+    DrawsPercentageGenerator().calculate_feature(game_list)
     FileHelper.save_object_to_disk(game_list, file_path=URLHelper.cache_folder_path() + "final_games.dat")
 else:
     print("- Using Cache")

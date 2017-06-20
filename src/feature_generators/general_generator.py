@@ -1,8 +1,14 @@
 from abc import ABC, abstractmethod
+import datetime
 
 
 class GeneralGenerator(ABC):
     """Represents an abstract class of feature generators"""
+
+    def __init__(self, period=None, *args,
+                 **kwargs):  # in args, kwargs, there will be all parameters you don't care, but needed for baseClass
+        super(GeneralGenerator, self).__init__()
+        self.period = period
 
     @abstractmethod
     def inner_calculate_feature(self, game_list):
@@ -19,5 +25,8 @@ class GeneralGenerator(ABC):
             return game_list
         return self.inner_calculate_feature(game_list)
 
-    def filter_games_before_date(self, game_list, date):
-        return game_list.games_df.loc[game_list.games_df['Date'] < date]
+    def get_feature_name(self):
+        prefix = self.__class__.__name__
+        if self.period:
+            prefix = prefix + 'Period'
+        return prefix
