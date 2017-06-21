@@ -23,7 +23,12 @@ class GeneralGenerator(ABC):
             return game_list
         elif game_list.games_df.empty:
             return game_list
-        return self.inner_calculate_feature(game_list)
+        start_time = datetime.datetime.now()
+        result = self.inner_calculate_feature(game_list)
+        end_time = datetime.datetime.now()
+        print('feature ' + self.get_feature_name() + ' took ' +
+              str((end_time - start_time).total_seconds()) + ' seconds')
+        return result
 
     def get_feature_name(self):
         prefix = self.__class__.__name__
