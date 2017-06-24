@@ -29,7 +29,8 @@ class PredictionManager:
                     'DrawsPercentageGenerator',
                     'GoalsDifferenceGeneratorPeriod',
                     'DrawsPercentageGeneratorPeriod',
-                    'DistanceFromLeader']
+                    'DistanceFromTop'
+                    ]
         data_frame = data_frame[features + ['Draw']]
 
         data_frame["Draw"] = data_frame["Draw"].astype("int")

@@ -19,7 +19,7 @@ class TestDrawPercentageGenerator(BaseTestCase):
         # Arrange
         game_list = FootballDataReader.game_list_by_url(url=BaseTestCase.base_url() + "/draw_percentage.csv",
                                                         league_name="tests")
-        draw_percentage = DrawsPercentageGenerator().calculate_feature(game_list)
+        draw_percentage = DrawsPercentageGenerator().calculate_feature(game_list, ignore_cache=True)
         self.assertEqual(draw_percentage.games_df.loc[0, "DrawsPercentageGenerator"], -1)
         self.assertEqual(draw_percentage.games_df.loc[1, "DrawsPercentageGenerator"], 0)
         self.assertEqual(draw_percentage.games_df.loc[2, "DrawsPercentageGenerator"], 0)
@@ -32,7 +32,7 @@ class TestDrawPercentageGenerator(BaseTestCase):
         # Arrange
         game_list = FootballDataReader.game_list_by_url(url=BaseTestCase.base_url() + "/draw_percentage.csv",
                                                         league_name="tests")
-        draw_percentage = DrawsPercentageGenerator(2).calculate_feature(game_list)
+        draw_percentage = DrawsPercentageGenerator(2).calculate_feature(game_list, ignore_cache=True)
         self.assertEqual(draw_percentage.games_df.loc[0, "DrawsPercentageGeneratorPeriod"], -1)
         self.assertEqual(draw_percentage.games_df.loc[1, "DrawsPercentageGeneratorPeriod"], 0)
         self.assertEqual(draw_percentage.games_df.loc[2, "DrawsPercentageGeneratorPeriod"], 0)

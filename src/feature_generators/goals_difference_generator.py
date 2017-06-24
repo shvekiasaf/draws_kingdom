@@ -19,7 +19,7 @@ class GoalsDifferenceGenerator(GeneralGenerator):
             away_team_never_played_away = game.AwayTeam not in previous_games.AwayTeam.values
 
             if previous_games.empty or (home_team_never_played_home and away_team_never_played_away):
-                game_list.games_df.loc[int(game.name), self.get_feature_name()] = -1
+                game_list.games_df.loc[int(game.name), self.get_printable_name()] = -1
                 minus_one_games += 1
             else:
                 if home_team_never_played_home:
@@ -39,10 +39,13 @@ class GoalsDifferenceGenerator(GeneralGenerator):
                 else:
                     away_team_mean = previous_games.groupby('AwayTeam').mean()
                     team_for_away_team = 'AwayTeam'
-                game_list.games_df.loc[int(game.name), self.get_feature_name()] = abs(
+                game_list.games_df.loc[int(game.name), self.get_printable_name()] = abs(
                     home_team_mean['FTHG'][game[team_for_home_team]] -
                     away_team_mean['FTAG'][game[team_for_away_team]])
 
             previous_games = previous_games.append(game)
         # print('GoalsDifferenceGenerator missing game ratings ' + str(minus_one_games))
         return game_list
+
+    def get_feature_names(self):
+        return [self.get_printable_name()]

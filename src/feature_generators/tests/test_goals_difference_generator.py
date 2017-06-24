@@ -20,7 +20,7 @@ class TestGoalsDifferenceGenerator(BaseTestCase):
         # Arrange
         game_list = FootballDataReader.game_list_by_url(url=BaseTestCase.base_url() + "/goals_difference.csv",
                                                         league_name="tests")
-        goals_difference = GoalsDifferenceGenerator().calculate_feature(game_list)
+        goals_difference = GoalsDifferenceGenerator().calculate_feature(game_list, ignore_cache=True)
         self.assertEqual(goals_difference.games_df.loc[2, "GoalsDifferenceGenerator"], 1)
         self.assertEqual(goals_difference.games_df.loc[3, "GoalsDifferenceGenerator"], 0)
         self.assertEqual(goals_difference.games_df.loc[4, "GoalsDifferenceGenerator"], 2)
@@ -31,7 +31,7 @@ class TestGoalsDifferenceGenerator(BaseTestCase):
         # Arrange
         game_list = FootballDataReader.game_list_by_url(url=BaseTestCase.base_url() + "/goals_difference.csv",
                                                         league_name="tests")
-        goals_difference = GoalsDifferenceGenerator(2).calculate_feature(game_list)
+        goals_difference = GoalsDifferenceGenerator(2).calculate_feature(game_list, ignore_cache=True)
         self.assertEqual(goals_difference.games_df.loc[2, "GoalsDifferenceGeneratorPeriod"], 1)
         self.assertEqual(goals_difference.games_df.loc[3, "GoalsDifferenceGeneratorPeriod"], 0)
         self.assertEqual(goals_difference.games_df.loc[4, "GoalsDifferenceGeneratorPeriod"], 0)

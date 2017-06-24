@@ -1,5 +1,7 @@
 import pandas as pd
 
+from feature_generators.distance_from_top_generator import DistanceFromTopGenerator
+from feature_generators.points_difference_generator import PointsDifferenceGenerator
 from helpers.base_test_case import BaseTestCase
 from readers.football_data_reader import FootballDataReader
 from src.feature_generators.league_points_generator import LeaguePointsGenerator
@@ -18,7 +20,7 @@ class TestLeaguePointsGenerator(BaseTestCase):
         game_list = GameList(list_name="", games_df=None)
 
         # Act
-        game_list_with_points = LeaguePointsGenerator().calculate_feature(game_list=game_list)
+        game_list_with_points = LeaguePointsGenerator().calculate_feature(game_list=game_list, ignore_cache=True)
 
         # Assert
         self.assertFalse(bool(game_list_with_points.games_df))
@@ -28,7 +30,7 @@ class TestLeaguePointsGenerator(BaseTestCase):
         game_list = None
 
         # Act
-        game_list_with_points = LeaguePointsGenerator().calculate_feature(game_list=game_list)
+        game_list_with_points = LeaguePointsGenerator().calculate_feature(game_list=game_list, ignore_cache=True)
 
         # Assert
         self.assertFalse(bool(game_list_with_points))
@@ -38,7 +40,7 @@ class TestLeaguePointsGenerator(BaseTestCase):
         game_list = GameList(list_name="", games_df=pd.DataFrame())
 
         # Act
-        game_list_with_points = LeaguePointsGenerator().calculate_feature(game_list=game_list)
+        game_list_with_points = LeaguePointsGenerator().calculate_feature(game_list=game_list, ignore_cache=True)
 
         # Assert
         self.assertTrue(game_list_with_points.games_df.empty)
@@ -49,7 +51,7 @@ class TestLeaguePointsGenerator(BaseTestCase):
                                                         league_name="tests")
 
         # Act
-        game_list_with_points = LeaguePointsGenerator().calculate_feature(game_list=game_list)
+        game_list_with_points = LeaguePointsGenerator().calculate_feature(game_list=game_list, ignore_cache=True)
 
         # Assert
         self.assertTrue(bool(game_list_with_points))
@@ -65,7 +67,9 @@ class TestLeaguePointsGenerator(BaseTestCase):
                                                         league_name="tests")
 
         # Act
-        game_list_with_points = LeaguePointsGenerator().calculate_feature(game_list=game_list)
+        game_list_with_points = LeaguePointsGenerator().calculate_feature(game_list=game_list, ignore_cache=True)
+        game_list_with_points = PointsDifferenceGenerator().calculate_feature(game_list=game_list_with_points, ignore_cache=True)
+        game_list_with_points = DistanceFromTopGenerator().calculate_feature(game_list=game_list_with_points, ignore_cache=True)
 
         # Assert
         self.assertTrue(bool(game_list_with_points))
@@ -82,7 +86,7 @@ class TestLeaguePointsGenerator(BaseTestCase):
         for index in range(len(draws)):
             self.assertEqual(draws[index], game_list_with_points.games_df["Draw"][index])
         self.assertEqual(game_list_with_points.games_df.loc[3, "LeaguePointsDiff"], 5)
-        self.assertEqual(game_list_with_points.games_df.loc[3, "DistanceFromLeader"], 1.25)
+        self.assertEqual(game_list_with_points.games_df.loc[3, "DistanceFromTop"], 1.25)
 
     def test_calculate_feature__many_unsorted_games(self):
         # Arrange
@@ -90,7 +94,7 @@ class TestLeaguePointsGenerator(BaseTestCase):
                                                         league_name="tests")
 
         # Act
-        game_list_with_points = LeaguePointsGenerator().calculate_feature(game_list=game_list)
+        game_list_with_points = LeaguePointsGenerator().calculate_feature(game_list=game_list, ignore_cache=True)
 
         # Assert
         self.assertTrue(bool(game_list_with_points))
@@ -115,7 +119,7 @@ class TestLeaguePointsGenerator(BaseTestCase):
         game_list.games_df = pd.concat([game_list.games_df, game_list1.games_df], ignore_index=True)
 
         # Act
-        game_list_with_points = LeaguePointsGenerator().calculate_feature(game_list=game_list)
+        game_list_with_points = LeaguePointsGenerator().calculate_feature(game_list=game_list, ignore_cache=True)
 
         # Assert
         self.assertTrue(bool(game_list_with_points))

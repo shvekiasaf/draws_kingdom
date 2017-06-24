@@ -23,15 +23,18 @@ class DrawsPercentageGenerator(GeneralGenerator):
 
             if games_with_either_team.empty:
                 game_list.games_df.loc[
-                    int(game.name), self.get_feature_name()] = -1
+                    int(game.name), self.get_printable_name()] = -1
             else:
                 # we simply use Div to get the count. All other columns would also work
                 total_games_with_teams = games_with_either_team.count()['Div']
                 number_of_draws_for_teams = games_with_either_team[games_with_either_team.Draw].count()['Div']
 
                 game_list.games_df.loc[
-                    int(game.name), self.get_feature_name()] = number_of_draws_for_teams / total_games_with_teams
+                    int(game.name), self.get_printable_name()] = number_of_draws_for_teams / total_games_with_teams
 
             previous_games = previous_games.append(game)
 
         return game_list
+
+    def get_feature_names(self):
+        return [self.get_printable_name()]

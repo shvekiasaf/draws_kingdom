@@ -1,8 +1,6 @@
 from numpy import math
 
 from feature_generators.general_generator import GeneralGenerator
-from feature_generators.league.distance_from_top_populator import DistanceFromTopPopulator
-from feature_generators.league.points_difference_populator import PointsDifferencePopulator
 
 
 def is_nan(x):
@@ -15,26 +13,21 @@ class LeaguePointsGenerator(GeneralGenerator):
 
     def inner_calculate_feature(self, game_list):
 
-        metric_populators = [PointsDifferencePopulator(), DistanceFromTopPopulator()]
-
         season_id_team_points_dic = {}
 
         game_list.games_df["HomeTeamLeaguePoints"] = -1
         game_list.games_df["AwayTeamLeaguePoints"] = -1
-        game_list.games_df["LeaguePointsDiff"] = -1
+        game_list.games_df["HomeTeamGamesPlayedInSeason"] = -1
+        game_list.games_df["AwayTeamGamesPlayedInSeason"] = -1
 
         sorted_game_list_df = game_list.games_df.sort_values(by="Date")
-        # holds the number of points for top team per league
-        max_points = {}
+
         number_of_games_played = {}
 
         for index, row in sorted_game_list_df.iterrows():
 
             home_team_key = row["HomeTeam"] + row["SeasonId"]
             away_team_key = row["AwayTeam"] + row["SeasonId"]
-
-            if row["SeasonId"] not in max_points:
-                max_points[row["SeasonId"]] = 0
 
             if home_team_key not in season_id_team_points_dic:
                 season_id_team_points_dic[home_team_key] = 0
@@ -50,9 +43,8 @@ class LeaguePointsGenerator(GeneralGenerator):
 
             game_list.games_df.loc[int(row.name), "HomeTeamLeaguePoints"] = season_id_team_points_dic[home_team_key]
             game_list.games_df.loc[int(row.name), "AwayTeamLeaguePoints"] = season_id_team_points_dic[away_team_key]
-
-            for populator in metric_populators:
-                populator.update_metric(game_list, max_points, number_of_games_played, row, season_id_team_points_dic)
+            game_list.games_df.loc[int(row.name), "HomeTeamGamesPlayedInSeason"] = number_of_games_played[home_team_key]
+            game_list.games_df.loc[int(row.name), "AwayTeamGamesPlayedInSeason"] = number_of_games_played[away_team_key]
 
             number_of_games_played[home_team_key] += 1
             number_of_games_played[away_team_key] += 1
@@ -66,3 +58,7 @@ class LeaguePointsGenerator(GeneralGenerator):
                 season_id_team_points_dic[away_team_key] += 3
 
         return game_list
+
+    def get_feature_names(self):
+        return ["HomeTeamLeaguePoints", "AwayTeamLeaguePoints",
+                "HomeTeamGamesPlayedInSeason", "AwayTeamGamesPlayedInSeason"]
