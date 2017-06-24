@@ -1,5 +1,3 @@
-import pandas as pd
-
 from helpers.base_test_case import BaseTestCase
 from readers.football_data_reader import FootballDataReader
 from src.feature_generators.draws_percentage_generator import DrawsPercentageGenerator

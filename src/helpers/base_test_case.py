@@ -19,12 +19,12 @@ class BaseTestCase(unittest.TestCase):
         return path
 
     @staticmethod
-    def cache_url():
-        return URLHelper.base_project_url() + "/readers/cache/tests"
+    def cache_url(folder):
+        return URLHelper.base_project_url() + "/readers/cache/" + folder
 
-    def clean_cache_files(self, pattern):
+    def clean_cache_files(self, pattern, folder = 'tests'):
         import re, os.path
-        for root, dirs, files in os.walk(BaseTestCase.cache_url()):
+        for root, dirs, files in os.walk(BaseTestCase.cache_url(folder)):
             for file in filter(lambda x: re.match(pattern, x), files):
                 os.remove(os.path.join(root, file))
         pass
