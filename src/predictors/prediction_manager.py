@@ -29,7 +29,9 @@ class PredictionManager:
                     'DrawsPercentageGenerator',
                     'GoalsDifferenceGeneratorPeriod',
                     'DrawsPercentageGeneratorPeriod',
-                    'DistanceFromTop'
+                    'DistanceFromTop',
+                    'LeagueGoalsDifferenceNormalizedGenerator',
+                    'LeagueGoalsAvgNormalizedGenerator'
                     ]
         data_frame = data_frame[features + ['Draw']]
 

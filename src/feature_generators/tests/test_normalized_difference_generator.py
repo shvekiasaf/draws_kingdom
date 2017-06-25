@@ -22,10 +22,11 @@ class TestNormalizedDifferenceGenerator(BaseTestCase):
         self.assertEqual(round(result.games_df.loc[0, "LeagueGoalsDifferenceNormalizedGenerator"], 2), 0.38)
         self.assertEqual(round(result.games_df.loc[169, "LeagueGoalsDifferenceNormalizedGenerator"], 3), 0.377)
 
-    def test_single_league_multiple_season(self):
+    def test_multiple_leagues_multiple_seasons(self):
         game_list = FootballDataReader.game_list_by_url(url=BaseTestCase.base_url() + "/E0-14.csv", league_name="e0_tests", season='E0-14')
+        other_league = FootballDataReader.game_list_by_url(url=BaseTestCase.base_url() + "/B1-14.csv", league_name="e0_tests", season='B1-14')
         second_season = FootballDataReader.game_list_by_url(url=BaseTestCase.base_url() + "/E0-15.csv", league_name="e0_tests", season='E0-15')
-        game_list.games_df = pandas.concat([game_list.games_df, second_season.games_df],ignore_index=True)
+        game_list.games_df = pandas.concat([game_list.games_df, second_season.games_df, other_league.games_df],ignore_index=True)
         result = LeagueGoalsDifferenceNormalizedGenerator().calculate_feature(game_list, ignore_cache=True)
         self.assertEqual(round(result.games_df.loc[0, "LeagueGoalsDifferenceNormalizedGenerator"], 2), 0.38)
         self.assertEqual(round(result.games_df.loc[169, "LeagueGoalsDifferenceNormalizedGenerator"], 3), 0.377)
