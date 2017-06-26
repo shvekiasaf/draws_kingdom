@@ -6,7 +6,6 @@ import datetime
 
 class BaseLeagueGoalsNormalizedGenerator(GeneralGenerator):
     def inner_calculate_feature(self, game_list):
-        game_list.games_df[self.get_printable_name()] = -1
 
         league_names = game_list.games_df['LeagueName'].unique()
         for league_name in league_names:
