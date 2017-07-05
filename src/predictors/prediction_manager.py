@@ -30,6 +30,8 @@ class PredictionManager:
                     # 'GoalsDifferenceGeneratorPeriod',
                     # 'DrawsPercentageGeneratorPeriod',
                     'DistanceFromTop',
+                    #'LeagueGoalsDifferenceNormalizedGenerator',
+                    # 'LeagueGoalsAvgNormalizedGenerator',
                     'LowScoringTeamsGenerator'
                     ]
         data_frame = data_frame[features + ['Draw']]
@@ -119,11 +121,15 @@ class PredictionManager:
     def run_model(model: object, modeltitle, X, y, X_test, y_test, baseline):
         clf = model.fit(X, y)
 
-        model_score = cross_val_score(clf, X, y, cv=5).mean()
+        cross_validation_scores_array = cross_val_score(clf, X, y, cv=5)
+        model_score = cross_validation_scores_array.mean()
+        model_std = cross_validation_scores_array.std()
+
         print(Fore.BLUE)
         print(modeltitle)
         print(Style.RESET_ALL)
         print(" Score: ", model_score)
+        print(" Standard Deviation: ", model_std)
 
         conf_mat_ext = confusion_matrix(clf.predict(X_test), y_test, labels=[0, 1])
 
