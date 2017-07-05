@@ -23,6 +23,7 @@ class LeaguePointsGenerator(GeneralGenerator):
         sorted_game_list_df = game_list.games_df.sort_values(by="Date")
 
         number_of_games_played = {}
+        goals_scored = {}
 
         for index, row in sorted_game_list_df.iterrows():
 
@@ -41,13 +42,24 @@ class LeaguePointsGenerator(GeneralGenerator):
             if away_team_key not in number_of_games_played:
                 number_of_games_played[away_team_key] = 0
 
+            if home_team_key not in goals_scored:
+                goals_scored[home_team_key] = 0
+
+            if away_team_key not in goals_scored:
+                goals_scored[away_team_key] = 0
+
             game_list.games_df.loc[int(row.name), "HomeTeamLeaguePoints"] = season_id_team_points_dic[home_team_key]
             game_list.games_df.loc[int(row.name), "AwayTeamLeaguePoints"] = season_id_team_points_dic[away_team_key]
             game_list.games_df.loc[int(row.name), "HomeTeamGamesPlayedInSeason"] = number_of_games_played[home_team_key]
             game_list.games_df.loc[int(row.name), "AwayTeamGamesPlayedInSeason"] = number_of_games_played[away_team_key]
+            game_list.games_df.loc[int(row.name), "HomeTeamGoalsScoredInSeason"] = goals_scored[home_team_key]
+            game_list.games_df.loc[int(row.name), "AwayTeamGoalsScoredInSeason"] = goals_scored[away_team_key]
 
             number_of_games_played[home_team_key] += 1
             number_of_games_played[away_team_key] += 1
+
+            goals_scored[home_team_key] += row["FTHG"]
+            goals_scored[away_team_key] += row["FTAG"]
 
             if row["FTHG"] > row["FTAG"]:
                 season_id_team_points_dic[home_team_key] += 3
@@ -57,8 +69,17 @@ class LeaguePointsGenerator(GeneralGenerator):
             else:
                 season_id_team_points_dic[away_team_key] += 3
 
+        for index, row in sorted_game_list_df.iterrows():
+
+            home_team_key = row["HomeTeam"] + row["SeasonId"]
+
+            # counting the max number of games per season, the home team count is enough as we -
+            # assume home and away teams have the same number of games
+            game_list.games_df.loc[int(row.name), "MaxGamesPerSeason"] = number_of_games_played[home_team_key]
+
         return game_list
 
     def get_feature_names(self):
         return ["HomeTeamLeaguePoints", "AwayTeamLeaguePoints",
-                "HomeTeamGamesPlayedInSeason", "AwayTeamGamesPlayedInSeason"]
+                "HomeTeamGamesPlayedInSeason", "AwayTeamGamesPlayedInSeason",
+                "HomeTeamGoalsScoredInSeason", "AwayTeamGoalsScoredInSeason", "MaxGamesPerSeason"]

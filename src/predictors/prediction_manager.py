@@ -25,11 +25,12 @@ class PredictionManager:
 
         # Feature selection
         features = ['LeaguePointsDiff',
-                    'GoalsDifferenceGenerator',
-                    'DrawsPercentageGenerator',
-                    'GoalsDifferenceGeneratorPeriod',
-                    'DrawsPercentageGeneratorPeriod',
-                    'DistanceFromTop'
+                    # 'GoalsDifferenceGenerator',
+                    # 'DrawsPercentageGenerator',
+                    # 'GoalsDifferenceGeneratorPeriod',
+                    # 'DrawsPercentageGeneratorPeriod',
+                    'DistanceFromTop',
+                    'LowScoringTeamsGenerator'
                     ]
         data_frame = data_frame[features + ['Draw']]
 
@@ -48,7 +49,6 @@ class PredictionManager:
         print("Draw: %i (%.1f percent), None Draw: %i (%.1f percent), Total: %i" \
               % (len(draw), 1. * len(draw) / len(train) * 100.0, \
                  len(non_draw), 1. * len(non_draw) / len(train) * 100.0, len(train)))
-
 
         draw_test = test[test['Draw'] == 1]
         non_draw_test = test[test['Draw'] == 0]
