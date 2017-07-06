@@ -57,6 +57,12 @@ class TestLeaguePointsGenerator(BaseTestCase):
         self.assertTrue(bool(game_list_with_points))
         self.assertEqual(game_list_with_points.games_df.loc[0, "AwayTeamLeaguePoints"], 0)
         self.assertEqual(game_list_with_points.games_df.loc[0, "HomeTeamLeaguePoints"], 0)
+        self.assertEqual(game_list_with_points.games_df.loc[0, "HomeTeamGamesPlayedInSeason"], 0)
+        self.assertEqual(game_list_with_points.games_df.loc[0, "AwayTeamGamesPlayedInSeason"], 0)
+        self.assertEqual(game_list_with_points.games_df.loc[0, "HomeTeamGoalsScoredInSeason"], 0)
+        self.assertEqual(game_list_with_points.games_df.loc[0, "AwayTeamGoalsScoredInSeason"], 0)
+        self.assertEqual(game_list_with_points.games_df.loc[0, "MaxGamesPerSeason"], 1)
+
         self.assertEqual(len(game_list_with_points.games_df.index), 1)
 
     def test_calculate_feature__many_games(self):
@@ -81,10 +87,31 @@ class TestLeaguePointsGenerator(BaseTestCase):
         self.assertEqual(game_list_with_points.games_df.loc[2, "HomeTeamLeaguePoints"], 0)
         self.assertEqual(game_list_with_points.games_df.loc[3, "AwayTeamLeaguePoints"], 6)
         self.assertEqual(game_list_with_points.games_df.loc[3, "HomeTeamLeaguePoints"], 1)
+
+        self.assertEqual(game_list_with_points.games_df.loc[0, "HomeTeamGamesPlayedInSeason"], 0)
+        self.assertEqual(game_list_with_points.games_df.loc[0, "AwayTeamGamesPlayedInSeason"], 0)
+        self.assertEqual(game_list_with_points.games_df.loc[0, "HomeTeamGoalsScoredInSeason"], 0)
+        self.assertEqual(game_list_with_points.games_df.loc[0, "AwayTeamGoalsScoredInSeason"], 0)
+        self.assertEqual(game_list_with_points.games_df.loc[0, "MaxGamesPerSeason"], 3)
+
+        self.assertEqual(game_list_with_points.games_df.loc[1, "HomeTeamGamesPlayedInSeason"], 1)
+        self.assertEqual(game_list_with_points.games_df.loc[1, "AwayTeamGamesPlayedInSeason"], 0)
+        self.assertEqual(game_list_with_points.games_df.loc[1, "HomeTeamGoalsScoredInSeason"], 2)
+        self.assertEqual(game_list_with_points.games_df.loc[1, "AwayTeamGoalsScoredInSeason"], 0)
+        self.assertEqual(game_list_with_points.games_df.loc[1, "MaxGamesPerSeason"], 3)
+
+        self.assertEqual(game_list_with_points.games_df.loc[3, "HomeTeamGamesPlayedInSeason"], 2)
+        self.assertEqual(game_list_with_points.games_df.loc[3, "AwayTeamGamesPlayedInSeason"], 2)
+        self.assertEqual(game_list_with_points.games_df.loc[3, "HomeTeamGoalsScoredInSeason"], 6)
+        self.assertEqual(game_list_with_points.games_df.loc[3, "AwayTeamGoalsScoredInSeason"], 4)
+        self.assertEqual(game_list_with_points.games_df.loc[3, "MaxGamesPerSeason"], 3)
+
         self.assertEqual(len(game_list_with_points.games_df.index), 4)
         draws = [False, False, True, True]
         for index in range(len(draws)):
             self.assertEqual(draws[index], game_list_with_points.games_df["Draw"][index])
+
+        # todo move to a different test class
         self.assertEqual(game_list_with_points.games_df.loc[3, "LeaguePointsDiff"], 5)
         self.assertEqual(game_list_with_points.games_df.loc[3, "DistanceFromTop"], 1.25)
 
@@ -106,6 +133,19 @@ class TestLeaguePointsGenerator(BaseTestCase):
         self.assertEqual(game_list_with_points.games_df.loc[2, "HomeTeamLeaguePoints"], 0)
         self.assertEqual(game_list_with_points.games_df.loc[0, "AwayTeamLeaguePoints"], 6)
         self.assertEqual(game_list_with_points.games_df.loc[0, "HomeTeamLeaguePoints"], 1)
+
+        self.assertEqual(game_list_with_points.games_df.loc[1, "HomeTeamGamesPlayedInSeason"], 0)
+        self.assertEqual(game_list_with_points.games_df.loc[1, "AwayTeamGamesPlayedInSeason"], 0)
+        self.assertEqual(game_list_with_points.games_df.loc[1, "HomeTeamGoalsScoredInSeason"], 0)
+        self.assertEqual(game_list_with_points.games_df.loc[1, "AwayTeamGoalsScoredInSeason"], 0)
+        self.assertEqual(game_list_with_points.games_df.loc[1, "MaxGamesPerSeason"], 3)
+
+        self.assertEqual(game_list_with_points.games_df.loc[0, "HomeTeamGamesPlayedInSeason"], 2)
+        self.assertEqual(game_list_with_points.games_df.loc[0, "AwayTeamGamesPlayedInSeason"], 2)
+        self.assertEqual(game_list_with_points.games_df.loc[0, "HomeTeamGoalsScoredInSeason"], 6)
+        self.assertEqual(game_list_with_points.games_df.loc[0, "AwayTeamGoalsScoredInSeason"], 4)
+        self.assertEqual(game_list_with_points.games_df.loc[0, "MaxGamesPerSeason"], 3)
+
         self.assertEqual(len(game_list_with_points.games_df.index), 4)
 
     def test_calculate_feature__many_games_different_seasons(self):
@@ -134,3 +174,21 @@ class TestLeaguePointsGenerator(BaseTestCase):
         self.assertEqual(game_list_with_points.games_df.loc[7, "AwayTeamLeaguePoints"], 6)
         self.assertEqual(game_list_with_points.games_df.loc[7, "HomeTeamLeaguePoints"], 1)
         self.assertEqual(len(game_list_with_points.games_df.index), 8)
+
+        self.assertEqual(game_list_with_points.games_df.loc[0, "HomeTeamGamesPlayedInSeason"], 0)
+        self.assertEqual(game_list_with_points.games_df.loc[0, "AwayTeamGamesPlayedInSeason"], 0)
+        self.assertEqual(game_list_with_points.games_df.loc[0, "HomeTeamGoalsScoredInSeason"], 0)
+        self.assertEqual(game_list_with_points.games_df.loc[0, "AwayTeamGoalsScoredInSeason"], 0)
+        self.assertEqual(game_list_with_points.games_df.loc[0, "MaxGamesPerSeason"], 3)
+
+        self.assertEqual(game_list_with_points.games_df.loc[3, "HomeTeamGamesPlayedInSeason"], 2)
+        self.assertEqual(game_list_with_points.games_df.loc[3, "AwayTeamGamesPlayedInSeason"], 2)
+        self.assertEqual(game_list_with_points.games_df.loc[3, "HomeTeamGoalsScoredInSeason"], 6)
+        self.assertEqual(game_list_with_points.games_df.loc[3, "AwayTeamGoalsScoredInSeason"], 4)
+        self.assertEqual(game_list_with_points.games_df.loc[3, "MaxGamesPerSeason"], 3)
+
+        self.assertEqual(game_list_with_points.games_df.loc[7, "HomeTeamGamesPlayedInSeason"], 2)
+        self.assertEqual(game_list_with_points.games_df.loc[7, "AwayTeamGamesPlayedInSeason"], 2)
+        self.assertEqual(game_list_with_points.games_df.loc[7, "HomeTeamGoalsScoredInSeason"], 6)
+        self.assertEqual(game_list_with_points.games_df.loc[7, "AwayTeamGoalsScoredInSeason"], 4)
+        self.assertEqual(game_list_with_points.games_df.loc[7, "MaxGamesPerSeason"], 3)

@@ -1,3 +1,5 @@
+import pandas as pd
+
 from feature_generators.general_generator import GeneralGenerator
 
 
@@ -23,12 +25,15 @@ class LowScoringTeamsGenerator(GeneralGenerator):
 
         # 1. Calculate the average of the proportion of (goals / games played) for both away and home teams
         # on the last game of every season
-        global_avg = ((game_list.games_df[game_list.games_df.HomeTeamGamesPlayedInSeason ==
-                                          (game_list.games_df.MaxGamesPerSeason - 1)]["HomeTeamGoalsScoredInSeason"] +
-                       game_list.games_df[game_list.games_df.HomeTeamGamesPlayedInSeason ==
-                                          (game_list.games_df.MaxGamesPerSeason - 1)]["AwayTeamGoalsScoredInSeason"]) /
-                      (2 * game_list.games_df[game_list.games_df.HomeTeamGamesPlayedInSeason ==
-                                              (game_list.games_df.MaxGamesPerSeason - 1)]["MaxGamesPerSeason"])).mean()
+        home_ratio_series = (game_list.games_df[game_list.games_df.HomeTeamGamesPlayedInSeason ==
+                                                (game_list.games_df.MaxGamesPerSeason - 1)]["HomeTeamGoalsScoredInSeason"] /
+                             game_list.games_df[game_list.games_df.HomeTeamGamesPlayedInSeason ==
+                                                (game_list.games_df.MaxGamesPerSeason - 1)]["MaxGamesPerSeason"])
+        away_ratio_series = (game_list.games_df[game_list.games_df.AwayTeamGamesPlayedInSeason ==
+                                                (game_list.games_df.MaxGamesPerSeason - 1)]["AwayTeamGoalsScoredInSeason"] /
+                             game_list.games_df[game_list.games_df.AwayTeamGamesPlayedInSeason ==
+                                                (game_list.games_df.MaxGamesPerSeason - 1)]["MaxGamesPerSeason"])
+        global_avg = home_ratio_series.append(away_ratio_series).mean()
 
         # 2. Grading each team for each game, take into consideration the amount of games.
         # A game with less games will probably be similar to the global average
@@ -42,7 +47,7 @@ class LowScoringTeamsGenerator(GeneralGenerator):
                                      scoring_avg_home_team) / game_list.games_df["MaxGamesPerSeason"]
         normalized_away_proporion = ((global_avg * (game_list.games_df["MaxGamesPerSeason"] -
                                                     game_list.games_df["AwayTeamGamesPlayedInSeason"])) +
-                                     scoring_avg_away_team) / game_list.games_df["MaxGamesPerSeason"]
+                                     scoring_avg_away_team) / (game_list.games_df["MaxGamesPerSeason"])
 
         # 3. The final score would be the average of home and away teams proportion
         game_list.games_df["LowScoringTeamsGenerator"] = (normalized_home_proporion + normalized_away_proporion) / 2
